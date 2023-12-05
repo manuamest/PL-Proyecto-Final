@@ -1,3 +1,10 @@
-Número de personajes: 4
-Ubicación: Monte, playa
-
+# Numero de personajes: 6
+# Ubicacion: 
+    - Bosque
+    - Ciudad
+    - Cueva
+    - Montaña
+# Tipo mision: 
+    - Eliminacion
+    - Rescate
+    - Tesoro

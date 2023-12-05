@@ -15,17 +15,36 @@ void yyerror (char const *);
     int valInt;
 }
 
-%token <string> NUMEROPERSONAJES UBICACION NOMBREUBICACION
-%token <valInt> NUMERO
+%token <string> NUMEROPERSONAJES UBICACION UBICACIONSTR TIPOMISION TIPOMISIONSTR STR
+%token <valInt> NUMEROPERSONAJESINT
 
 %start S
 
 %%
 S:      
-    NUMEROPERSONAJES NUMERO UBICACION NOMBREUBICACION{
+    NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION ubicacion TIPOMISION tipomision {
         printf("Numero de personajes: %d\n", $2);
-        printf("Ubicacion: %s\n", $4);
+        printf("Ubicacion: \n");
+        printf("Tipo mision: \n");
+    }
+    ;
 
+ubicacion:
+     STR {
+        printf("%s\n", $1);
+    }
+    | STR ubicacion {
+        printf("%s\n", $1);
+    }
+    ;
+
+tipomision:
+     STR {
+        printf("%s\n", $1);
+
+    }
+    | STR tipomision {
+        printf("%s\n", $1);
     }
     ;
 %%
