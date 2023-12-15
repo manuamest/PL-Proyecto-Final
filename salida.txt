@@ -1,0 +1,26 @@
+Misión 1:
+  Tipo: Eliminación
+  Requisitos:
+    - Enemigos: Orcos, Lobos
+  Recompensas:
+    - Experiencia: 200
+    - Objeto: Espada
+
+Misión 2:
+  Tipo: Exploración
+  Requisitos:
+    - Lugares: Bosque, Cueva
+  Recompensas:
+    - Tesoro: 500 monedas
+
+Misión 3:
+  Tipo: Rescate
+  Requisitos:
+    - Personajes: Prisionero
+    - Lugar: Montaña
+  Recompensas:
+    - Aliado: Mago
+
+# Otras configuraciones
+Duración Máxima de Misión: 3 días
+Nivel Mínimo de Personajes: 5

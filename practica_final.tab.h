@@ -54,10 +54,11 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    NUMEROPERSONAJES = 258,        /* NUMEROPERSONAJES  */
+    NUMEROPERSONAJESINT = 258,     /* NUMEROPERSONAJESINT  */
     UBICACION = 259,               /* UBICACION  */
-    NOMBREUBICACION = 260,         /* NOMBREUBICACION  */
-    NUMERO = 261                   /* NUMERO  */
+    TIPOMISION = 260,              /* TIPOMISION  */
+    RECOMPENSA = 261,              /* RECOMPENSA  */
+    NUMEROPERSONAJES = 262         /* NUMEROPERSONAJES  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -66,21 +67,22 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define NUMEROPERSONAJES 258
+#define NUMEROPERSONAJESINT 258
 #define UBICACION 259
-#define NOMBREUBICACION 260
-#define NUMERO 261
+#define TIPOMISION 260
+#define RECOMPENSA 261
+#define NUMEROPERSONAJES 262
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "practica_final.y"
+#line 76 "practica_final.y"
 
 	char* string;
     int valInt;
 
-#line 84 "practica_final.tab.h"
+#line 86 "practica_final.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

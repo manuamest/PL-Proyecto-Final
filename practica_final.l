@@ -4,18 +4,15 @@
 %}
 
 
-
 NumeroPersonajes            [0-9]*
-string                 [A-Za-zñÑáéíóúÁÉÍÓÚ\- \t]+
+string                 [A-Za-zñÑáéíóúÁÉÍÓÚ\- \t\n]+
 
 %%
 
-[ \t\n]+                         { }  
-"# Numero de personajes:"         { yylval.string = strdup(yytext); return NUMEROPERSONAJES;}
-{NumeroPersonajes}               { yylval.valInt = atoi(yytext); return NUMEROPERSONAJESINT;}
-"# Ubicacion:"                    { yylval.string = strdup(yytext); return UBICACION;}
-{string}                   { printf("{%s}",yytext); yylval.string = strdup(yytext); return STR;}
-"# Tipo mision:"                  { yylval.string = strdup(yytext); return TIPOMISION;}                     
-{string}                     { yylval.string = strdup(yytext); return STR;}
-
+[ \t\n]+                            { }  
+"# Numero de personajes:"           { yylval.string = strdup(yytext); return NUMEROPERSONAJES;}
+{NumeroPersonajes}                  { yylval.valInt = atoi(yytext); return NUMEROPERSONAJESINT;}            
+"# Ubicacion\n"{string}             { yylval.string = strdup(yytext + 12); return UBICACION; }
+"# Tipo mision\n"{string}           { yylval.string = strdup(yytext + 14); return TIPOMISION; }
+"# Recompensa\n"{string}            { yylval.string = strdup(yytext + 12); return RECOMPENSA; }
 %%

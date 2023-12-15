@@ -1,10 +1,13 @@
 # Numero de personajes: 6
-# Ubicacion: 
+# Ubicacion
     - Bosque
     - Ciudad
     - Cueva
     - Montaña
-# Tipo mision: 
+# Tipo mision
     - Eliminacion
     - Rescate
-    - Tesoro
+    - Tesoro    
+# Recompensa
+    - Espada
+    - Bolsa de Oro

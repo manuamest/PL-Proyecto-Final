@@ -1,0 +1,15 @@
+# Configuración general
+NumeroPersonajes: 4
+UbicacionesDisponibles: Bosque, Ciudad, Cueva, Montaña
+
+# Objetos de misión
+ObjetosMision:
+  - Espada
+  - Poción
+  - Mapa
+
+# Tipos de Misiones
+TiposMisiones:
+  - Eliminación
+  - Exploración
+  - Rescate

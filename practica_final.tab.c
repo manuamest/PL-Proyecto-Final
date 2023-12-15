@@ -73,13 +73,76 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.c"
 
 int yylex(void);
 void yyerror (char const *);
+int numeroPersonajes;
+char* ubicaciones;
+char* tiposmision;
+char* recompensas;
 
+void printList(tList L) {
+    tPosL pos;
 
+    printf("[ ");
+    for (pos = first(L); pos != LNULL; pos = next(pos, L)) {
+        printf("%s", getItem(pos, L));
 
-#line 83 "practica_final.tab.c"
+        // Coma y espacio si no es el último elemento
+        if (next(pos, L) != LNULL) {
+            printf(", ");
+        }
+    }
+    printf(" ]\n");
+}
+
+tList split(const char *input) {
+    tList result;
+    createEmptyList(&result);
+
+    tPosL lastPos = LNULL;
+    char *copy = strdup(input);  // Duplicar el string para no modificar el original
+    char *token = strtok(copy, "\n");
+    
+    // Iterar sobre los tokens y agregarlos a la lista
+    while (token != NULL) {
+        insertItem(token, last(result), &result);
+        lastPos = next(lastPos, result);
+        token = strtok(NULL, "\n");
+    }
+
+    //free(copy);  // No se puede hacer este free pq te cargas el resultado xd
+
+    return result;
+}
+void eliminarEspaciosTabulacionesGuiones(char *cadena) {
+    // Obtener la longitud de la cadena
+    size_t longitud = strlen(cadena);
+
+    // Índice para recorrer la cadena original
+    int indiceOriginal = 0;
+
+    // Índice para construir la nueva cadena sin espacios, tabulaciones y guiones
+    int indiceNueva = 0;
+
+    while (indiceOriginal < longitud) {
+        // Verificar si el carácter actual no es espacio, tabulación ni guión
+        if (cadena[indiceOriginal] != ' ' && cadena[indiceOriginal] != '\t' && cadena[indiceOriginal] != '-') {
+            // Si no es ninguno de los caracteres a eliminar, copiarlo a la nueva cadena
+            cadena[indiceNueva] = cadena[indiceOriginal];
+            indiceNueva++;
+        }
+
+        // Mover al siguiente carácter en la cadena original
+        indiceOriginal++;
+    }
+
+    // Establecer el carácter nulo al final de la nueva cadena
+    cadena[indiceNueva] = '\0';
+}
+
+#line 146 "practica_final.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -110,12 +173,13 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_NUMEROPERSONAJES = 3,           /* NUMEROPERSONAJES  */
+  YYSYMBOL_NUMEROPERSONAJESINT = 3,        /* NUMEROPERSONAJESINT  */
   YYSYMBOL_UBICACION = 4,                  /* UBICACION  */
-  YYSYMBOL_NOMBREUBICACION = 5,            /* NOMBREUBICACION  */
-  YYSYMBOL_NUMERO = 6,                     /* NUMERO  */
-  YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
-  YYSYMBOL_S = 8                           /* S  */
+  YYSYMBOL_TIPOMISION = 5,                 /* TIPOMISION  */
+  YYSYMBOL_RECOMPENSA = 6,                 /* RECOMPENSA  */
+  YYSYMBOL_NUMEROPERSONAJES = 7,           /* NUMEROPERSONAJES  */
+  YYSYMBOL_YYACCEPT = 8,                   /* $accept  */
+  YYSYMBOL_S = 9                           /* S  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -443,19 +507,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   7
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  7
+#define YYNTOKENS  8
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  2
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  7
+#define YYNSTATES  8
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   261
+#define YYMAXUTOK   262
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -495,14 +559,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       5,     6,     7
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    25,    25
+       0,    88,    88
 };
 #endif
 
@@ -518,8 +582,9 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "NUMEROPERSONAJES",
-  "UBICACION", "NOMBREUBICACION", "NUMERO", "$accept", "S", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "NUMEROPERSONAJESINT",
+  "UBICACION", "TIPOMISION", "RECOMPENSA", "NUMEROPERSONAJES", "$accept",
+  "S", YY_NULLPTR
 };
 
 static const char *
@@ -529,7 +594,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-6)
+#define YYPACT_NINF (-8)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -543,7 +608,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -5,     2,    -1,    -6,     0,    -6
+      -7,    -2,     2,    -1,    -8,     0,     1,    -8
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -551,13 +616,13 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     0,     2
+       0,     0,     0,     0,     1,     0,     0,     2
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6
+      -8,    -8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -571,31 +636,31 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     3,     4,     5,     0,     6
+       1,     3,     4,     5,     0,     6,     0,     7
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     6,     0,     4,    -1,     5
+       7,     3,     0,     4,    -1,     5,    -1,     6
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     8,     6,     0,     4,     5
+       0,     7,     9,     3,     0,     4,     5,     6
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8
+       0,     8,     9
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     4
+       0,     2,     5
 };
 
 
@@ -1058,18 +1123,32 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* S: NUMEROPERSONAJES NUMERO UBICACION NOMBREUBICACION  */
-#line 25 "practica_final.y"
-                                                     {
-        printf("Numero de personajes: %d\n", (yyvsp[-2].valInt));
-        printf("Ubicacion: %s\n", (yyvsp[0].string));
-
+  case 2: /* S: NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA  */
+#line 88 "practica_final.y"
+                                                                         {
+        printf("Numero de personajes: %d\n", (yyvsp[-3].valInt));
+        printf("Ubicacion: %s\n", (yyvsp[-2].string));
+        printf("Tipo mision: %s\n", (yyvsp[-1].string));
+        numeroPersonajes = (yyvsp[-3].valInt);
+        ubicaciones = (yyvsp[-2].string);
+        tiposmision = (yyvsp[-1].string);
+        recompensas = (yyvsp[0].string);
+        eliminarEspaciosTabulacionesGuiones(ubicaciones);
+        tList ListaUbicaciones = split(ubicaciones);
+        printList(ListaUbicaciones);
+        eliminarEspaciosTabulacionesGuiones(tiposmision);
+        tList ListaTiposMision = split(tiposmision);
+        printList(ListaTiposMision);
+        eliminarEspaciosTabulacionesGuiones(recompensas);
+        tList ListaRecompensas = split(recompensas);
+        printList(ListaRecompensas);
+        return 0;
     }
-#line 1069 "practica_final.tab.c"
+#line 1148 "practica_final.tab.c"
     break;
 
 
-#line 1073 "practica_final.tab.c"
+#line 1152 "practica_final.tab.c"
 
       default: break;
     }
@@ -1262,7 +1341,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 31 "practica_final.y"
+#line 108 "practica_final.y"
 
 
 int main(int argc, char *argv[]) {
