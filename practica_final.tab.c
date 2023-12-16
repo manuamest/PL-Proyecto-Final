@@ -74,13 +74,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.c"
+#include <time.h>
 
 int yylex(void);
 void yyerror (char const *);
+int numeroMision = 0;
 int numeroPersonajes;
 char* ubicaciones;
 char* tiposmision;
 char* recompensas;
+char* dificultad;
+char* clasificaion;
+
+//++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE LISTAS++++++++++++++++++++++++++++++++++++++++++++++++
 
 void printList(tList L) {
     tPosL pos;
@@ -142,7 +148,25 @@ void eliminarEspaciosTabulacionesGuiones(char *cadena) {
     cadena[indiceNueva] = '\0';
 }
 
-#line 146 "practica_final.tab.c"
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE RANDOM+++++++++++++++++++++++++++++++++++++++++++++
+
+//N = 0 M = lastpos
+//numero = rand () % (N-M+1) + M;
+
+tItemL obtenerElementoAleatorio(tList L) {
+    if (isEmptyList(L)) {
+        return 0;
+    }
+
+    // Genera un índice aleatorio entre el primer y último elemento de la lista
+    tPosL indiceAleatorio = (rand() % (last(L) - first(L) + 1) + first(L));
+
+    // Utiliza findItem para recuperar el elemento en el índice aleatorio
+    return getItem(indiceAleatorio, L);
+}
+
+
+#line 170 "practica_final.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -178,8 +202,10 @@ enum yysymbol_kind_t
   YYSYMBOL_TIPOMISION = 5,                 /* TIPOMISION  */
   YYSYMBOL_RECOMPENSA = 6,                 /* RECOMPENSA  */
   YYSYMBOL_NUMEROPERSONAJES = 7,           /* NUMEROPERSONAJES  */
-  YYSYMBOL_YYACCEPT = 8,                   /* $accept  */
-  YYSYMBOL_S = 9                           /* S  */
+  YYSYMBOL_DIFICULTAD = 8,                 /* DIFICULTAD  */
+  YYSYMBOL_CLASIFICACION = 9,              /* CLASIFICACION  */
+  YYSYMBOL_YYACCEPT = 10,                  /* $accept  */
+  YYSYMBOL_S = 11                          /* S  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -505,21 +531,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  4
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   7
+#define YYLAST   9
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  8
+#define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  2
+#define YYNRULES  3
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  11
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   262
+#define YYMAXUTOK   264
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -559,14 +585,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7
+       5,     6,     7,     8,     9
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    88,    88
+       0,   112,   112,   215
 };
 #endif
 
@@ -583,8 +609,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUMEROPERSONAJESINT",
-  "UBICACION", "TIPOMISION", "RECOMPENSA", "NUMEROPERSONAJES", "$accept",
-  "S", YY_NULLPTR
+  "UBICACION", "TIPOMISION", "RECOMPENSA", "NUMEROPERSONAJES",
+  "DIFICULTAD", "CLASIFICACION", "$accept", "S", YY_NULLPTR
 };
 
 static const char *
@@ -594,7 +620,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-8)
+#define YYPACT_NINF (-5)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -608,7 +634,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -7,    -2,     2,    -1,    -8,     0,     1,    -8
+      -1,    -5,    -2,     2,     0,    -5,     3,    -3,     1,    -4,
+      -5
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -616,19 +643,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     0,     0,     2
+       0,     3,     0,     0,     0,     1,     0,     0,     0,     0,
+       2
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -8,    -8
+      -5,    -5
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2
+       0,     3
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -636,31 +664,32 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     3,     4,     5,     0,     6,     0,     7
+       1,     4,     5,     8,     6,    10,     2,     0,     7,     9
 };
 
 static const yytype_int8 yycheck[] =
 {
-       7,     3,     0,     4,    -1,     5,    -1,     6
+       1,     3,     0,     6,     4,     9,     7,    -1,     5,     8
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     7,     9,     3,     0,     4,     5,     6
+       0,     1,     7,    11,     3,     0,     4,     5,     6,     8,
+       9
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     8,     9
+       0,    10,    11,    11
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     5
+       0,     2,     7,     1
 };
 
 
@@ -1123,16 +1152,18 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* S: NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA  */
-#line 88 "practica_final.y"
-                                                                         {
-        printf("Numero de personajes: %d\n", (yyvsp[-3].valInt));
-        printf("Ubicacion: %s\n", (yyvsp[-2].string));
-        printf("Tipo mision: %s\n", (yyvsp[-1].string));
-        numeroPersonajes = (yyvsp[-3].valInt);
-        ubicaciones = (yyvsp[-2].string);
-        tiposmision = (yyvsp[-1].string);
-        recompensas = (yyvsp[0].string);
+  case 2: /* S: NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA DIFICULTAD CLASIFICACION  */
+#line 112 "practica_final.y"
+                                                                                                  {
+        printf("Numero de personajes: %d\n", (yyvsp[-5].valInt));
+        printf("Ubicacion: %s\n", (yyvsp[-4].string));
+        printf("Tipo mision: %s\n", (yyvsp[-3].string));
+        numeroPersonajes = (yyvsp[-5].valInt);
+        ubicaciones = (yyvsp[-4].string);
+        tiposmision = (yyvsp[-3].string);
+        recompensas = (yyvsp[-2].string);
+        dificultad = (yyvsp[-1].string);
+        clasificaion = (yyvsp[0].string);
         eliminarEspaciosTabulacionesGuiones(ubicaciones);
         tList ListaUbicaciones = split(ubicaciones);
         printList(ListaUbicaciones);
@@ -1142,13 +1173,103 @@ yyreduce:
         eliminarEspaciosTabulacionesGuiones(recompensas);
         tList ListaRecompensas = split(recompensas);
         printList(ListaRecompensas);
+        eliminarEspaciosTabulacionesGuiones(dificultad);
+        tList ListaDificultad = split(dificultad);
+        printList(ListaDificultad);
+        eliminarEspaciosTabulacionesGuiones(clasificaion);
+        tList ListaClasificacion = split(clasificaion);
+        printList(ListaClasificacion);
+        //printf("%s", obtenerElementoAleatorio(ListaUbicaciones));
+
+        /*
+        PRINTF PARA CREAR MISIONES
+        */
+
+        // Obtener ubicación aleatoria
+        char* ubicacionAleatoria = obtenerElementoAleatorio(ListaUbicaciones);
+
+        // Obtener tipo de misión aleatoria
+        char* tipoMisionAleatoria = obtenerElementoAleatorio(ListaTiposMision);
+
+        // Obtener recompensa aleatoria
+        char* recompensaAleatoria = obtenerElementoAleatorio(ListaRecompensas);
+
+        // Obtener dificultad aleatoria
+        char* dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+    
+        // Obtener clasificación aleatoria
+        char* clasificacionAleatoria = obtenerElementoAleatorio(ListaClasificacion);
+        
+        // Leer archivo
+        FILE *archivo_lectura = fopen("misiones.txt", "r");
+        if (archivo_lectura != NULL) {
+            
+            fseek(archivo_lectura, -2, SEEK_END);  // Ir al final del archivo
+
+            // Retroceder hasta encontrar el primer salto de línea
+            while (fgetc(archivo_lectura) != '\n') {
+                if (ftell(archivo_lectura) == 1) {
+                    // Si no hay salto de línea y estamos al principio del archivo,
+                    // intentamos buscar al principio después de esperar 0.1 segundos
+                    fclose(archivo_lectura);
+                    usleep(100000);  // 0.1 segundos en microsegundos
+                    archivo_lectura = fopen("misiones.txt", "r");
+                    break;
+                }
+                fseek(archivo_lectura, -2, SEEK_CUR);
+            }
+
+            // Leer el último número de misión
+            fscanf(archivo_lectura, "#%03d", &numeroMision);
+            fclose(archivo_lectura);
+        }
+
+        numeroMision++;
+
+        // Guardar información en un archivo
+        FILE *archivo = fopen("misiones.txt", "a");
+        fprintf(archivo, "#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+        fclose(archivo);
+
+        // Imprimir cabecera de la misión
+        printf("#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+
+        // Construir párrafo de misión
+        printf("¡Atención aventureros!\n");
+        printf("Una nueva misión ha surgido en la %s. Se recomiendan ir en un grupo de al menos %d personas.\n", ubicacionAleatoria, numeroPersonajes);
+
+        // Agregar detalles según el tipo de misión
+        if (strcmp(tipoMisionAleatoria, "Eliminacion") == 0) {
+            printf("Se requiere la eliminación de una amenaza enemiga. \n");
+        } else if (strcmp(tipoMisionAleatoria, "Rescate") == 0) {
+            printf("Un grupo de personas necesita ser rescatado de una situación peligrosa. \n");
+        } else if (strcmp(tipoMisionAleatoria, "Tesoro") == 0) {
+            printf("Un valioso tesoro ha sido descubierto y está esperando a ser reclamado. \n");
+        } else {
+            printf("Se requiere de ayuda para completar un %s\n", tipoMisionAleatoria);
+        }
+
+        // Agregar información sobre la recompensa
+        printf("A cambio de completar esta misión, se ofrece una recompensa: %s.\n", recompensaAleatoria);
+        printf("¡Buena suerte en tu viaje!\n");
+
+        //TODO:Añadir gestion de errores
+
         return 0;
     }
-#line 1148 "practica_final.tab.c"
+#line 1261 "practica_final.tab.c"
+    break;
+
+  case 3: /* S: error  */
+#line 215 "practica_final.y"
+            {
+        printf("A");
+    }
+#line 1269 "practica_final.tab.c"
     break;
 
 
-#line 1152 "practica_final.tab.c"
+#line 1273 "practica_final.tab.c"
 
       default: break;
     }
@@ -1341,10 +1462,11 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 108 "practica_final.y"
+#line 219 "practica_final.y"
 
 
 int main(int argc, char *argv[]) {
+    srand(time(NULL));
 	extern FILE *yyin;
 	yyin = fopen(argv[1], "r");
 	yyparse();

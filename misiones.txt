@@ -1,13 +1,5 @@
-# Numero de personajes: 6
-# Ubicacion
-    - Bosque
-    - Ciudad
-    - Cueva
-    - Montaña
-# Tipo mision
-    - Eliminacion
-    - Rescate
-    - Tesoro    
-# Recompensa
-    - Espada
-    - Bolsa de Oro
+#001 Eventoespecial, dificultad Experto: Sabotaje en Desierto
+#002 Gremio, dificultad Moderada: Espionaje en Ruinas
+#003 Principal, dificultad Difícil: Eliminacion en Ruinas
+#004 Eventoespecial, dificultad Difícil: Tesoro en Pantano
+#005 Secundaria, dificultad Legendario: Sabotaje en Ciudad

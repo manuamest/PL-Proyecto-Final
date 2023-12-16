@@ -1,15 +1,46 @@
-# Configuración general
-NumeroPersonajes: 4
-UbicacionesDisponibles: Bosque, Ciudad, Cueva, Montaña
+# Numero de personajes: 6
+# Ubicacion
+    - Bosque
+    - Ciudad
+    - Cueva
+    - Montaña
+    - Desierto
+    - Isla
+    - Ruinas
+    - Selva
+    - Tundra
+    - Pantano
+# Tipo mision
+    - Eliminacion
+    - Rescate
+    - Tesoro
+    - Exploracion
+    - Espionaje
+    - Escolta
+    - Investigacion
+    - Sabotaje
+    - Caza de bestias
+    - Conquista
+# Recompensa
+    - Espada
+    - Bolsa de Oro
+    - Pergamino mágico
+    - Amuleto de protección
+    - Mapa del tesoro
+    - Artefacto antiguo
+    - Poción de invisibilidad
+    - Montura épica
+    - Gema preciosa
+    - Habilidad especial
+# Dificultad
+    - Fácil
+    - Moderada
+    - Difícil
+    - Experto
+    - Legendario
+# Clasificacion mision
+    - Principal
+    - Secundaria
+    - Gremio
+    - Evento especial
 
-# Objetos de misión
-ObjetosMision:
-  - Espada
-  - Poción
-  - Mapa
-
-# Tipos de Misiones
-TiposMisiones:
-  - Eliminación
-  - Exploración
-  - Rescate

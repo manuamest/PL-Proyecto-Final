@@ -1,5 +1,5 @@
 FUENTE = practica_final
-PRUEBA = misiones.txt
+PRUEBA = entrada.txt
 LIB = lfl
 
 all: compile run

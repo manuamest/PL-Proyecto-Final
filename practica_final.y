@@ -4,13 +4,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.c"
+#include <time.h>
 
 int yylex(void);
 void yyerror (char const *);
+int numeroMision = 0;
 int numeroPersonajes;
 char* ubicaciones;
 char* tiposmision;
 char* recompensas;
+char* dificultad;
+char* clasificaion;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE LISTAS++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -75,9 +79,21 @@ void eliminarEspaciosTabulacionesGuiones(char *cadena) {
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE RANDOM+++++++++++++++++++++++++++++++++++++++++++++
-srand(time(NULL));
+
 //N = 0 M = lastpos
 //numero = rand () % (N-M+1) + M;
+
+tItemL obtenerElementoAleatorio(tList L) {
+    if (isEmptyList(L)) {
+        return 0;
+    }
+
+    // Genera un índice aleatorio entre el primer y último elemento de la lista
+    tPosL indiceAleatorio = (rand() % (last(L) - first(L) + 1) + first(L));
+
+    // Utiliza findItem para recuperar el elemento en el índice aleatorio
+    return getItem(indiceAleatorio, L);
+}
 
 %}
 
@@ -87,13 +103,13 @@ srand(time(NULL));
 }
 
 %token <valInt> NUMEROPERSONAJESINT
-%token <string> UBICACION TIPOMISION RECOMPENSA NUMEROPERSONAJES
+%token <string> UBICACION TIPOMISION RECOMPENSA NUMEROPERSONAJES DIFICULTAD CLASIFICACION
 
 %start S
 
 %%
 S:      
-    NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA {
+    NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA DIFICULTAD CLASIFICACION {
         printf("Numero de personajes: %d\n", $2);
         printf("Ubicacion: %s\n", $3);
         printf("Tipo mision: %s\n", $4);
@@ -101,6 +117,8 @@ S:
         ubicaciones = $3;
         tiposmision = $4;
         recompensas = $5;
+        dificultad = $6;
+        clasificaion = $7;
         eliminarEspaciosTabulacionesGuiones(ubicaciones);
         tList ListaUbicaciones = split(ubicaciones);
         printList(ListaUbicaciones);
@@ -110,15 +128,98 @@ S:
         eliminarEspaciosTabulacionesGuiones(recompensas);
         tList ListaRecompensas = split(recompensas);
         printList(ListaRecompensas);
+        eliminarEspaciosTabulacionesGuiones(dificultad);
+        tList ListaDificultad = split(dificultad);
+        printList(ListaDificultad);
+        eliminarEspaciosTabulacionesGuiones(clasificaion);
+        tList ListaClasificacion = split(clasificaion);
+        printList(ListaClasificacion);
+        //printf("%s", obtenerElementoAleatorio(ListaUbicaciones));
 
+        /*
+        PRINTF PARA CREAR MISIONES
+        */
 
+        // Obtener ubicación aleatoria
+        char* ubicacionAleatoria = obtenerElementoAleatorio(ListaUbicaciones);
+
+        // Obtener tipo de misión aleatoria
+        char* tipoMisionAleatoria = obtenerElementoAleatorio(ListaTiposMision);
+
+        // Obtener recompensa aleatoria
+        char* recompensaAleatoria = obtenerElementoAleatorio(ListaRecompensas);
+
+        // Obtener dificultad aleatoria
+        char* dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+    
+        // Obtener clasificación aleatoria
+        char* clasificacionAleatoria = obtenerElementoAleatorio(ListaClasificacion);
+        
+        // Leer archivo
+        FILE *archivo_lectura = fopen("misiones.txt", "r");
+        if (archivo_lectura != NULL) {
+            
+            fseek(archivo_lectura, -2, SEEK_END);  // Ir al final del archivo
+
+            // Retroceder hasta encontrar el primer salto de línea
+            while (fgetc(archivo_lectura) != '\n') {
+                if (ftell(archivo_lectura) == 1) {
+                    // Si no hay salto de línea y estamos al principio del archivo,
+                    // intentamos buscar al principio después de esperar 0.1 segundos
+                    fclose(archivo_lectura);
+                    usleep(100000);  // 0.1 segundos en microsegundos
+                    archivo_lectura = fopen("misiones.txt", "r");
+                    break;
+                }
+                fseek(archivo_lectura, -2, SEEK_CUR);
+            }
+
+            // Leer el último número de misión
+            fscanf(archivo_lectura, "#%03d", &numeroMision);
+            fclose(archivo_lectura);
+        }
+
+        numeroMision++;
+
+        // Guardar información en un archivo
+        FILE *archivo = fopen("misiones.txt", "a");
+        fprintf(archivo, "#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+        fclose(archivo);
+
+        // Imprimir cabecera de la misión
+        printf("#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+
+        // Construir párrafo de misión
+        printf("¡Atención aventureros!\n");
+        printf("Una nueva misión ha surgido en la %s. Se recomiendan ir en un grupo de al menos %d personas.\n", ubicacionAleatoria, numeroPersonajes);
+
+        // Agregar detalles según el tipo de misión
+        if (strcmp(tipoMisionAleatoria, "Eliminacion") == 0) {
+            printf("Se requiere la eliminación de una amenaza enemiga. \n");
+        } else if (strcmp(tipoMisionAleatoria, "Rescate") == 0) {
+            printf("Un grupo de personas necesita ser rescatado de una situación peligrosa. \n");
+        } else if (strcmp(tipoMisionAleatoria, "Tesoro") == 0) {
+            printf("Un valioso tesoro ha sido descubierto y está esperando a ser reclamado. \n");
+        } else {
+            printf("Se requiere de ayuda para completar un %s\n", tipoMisionAleatoria);
+        }
+
+        // Agregar información sobre la recompensa
+        printf("A cambio de completar esta misión, se ofrece una recompensa: %s.\n", recompensaAleatoria);
+        printf("¡Buena suerte en tu viaje!\n");
+
+        //TODO:Añadir gestion de errores
 
         return 0;
+    }
+    | error {
+        printf("A");
     }
     ;
 %%
 
 int main(int argc, char *argv[]) {
+    srand(time(NULL));
 	extern FILE *yyin;
 	yyin = fopen(argv[1], "r");
 	yyparse();
