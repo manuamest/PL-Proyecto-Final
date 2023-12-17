@@ -1,4 +1,4 @@
-# Numero de personajes: 6
+# Numero de personajes: 10
 # Ubicacion
     - Bosque
     - Ciudad
@@ -29,13 +29,13 @@
     - Mapa del tesoro
     - Artefacto antiguo
     - Poción de invisibilidad
-    - Montura épica
+    - Montura epica
     - Gema preciosa
     - Habilidad especial
 # Dificultad
-    - Fácil
+    - Facil
     - Moderada
-    - Difícil
+    - Dificil
     - Experto
     - Legendario
 # Clasificacion mision
@@ -43,4 +43,4 @@
     - Secundaria
     - Gremio
     - Evento especial
-
+    

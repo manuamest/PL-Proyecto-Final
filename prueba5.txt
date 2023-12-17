@@ -1,0 +1,19 @@
+# Numero de personajes: 11
+# Ubicacion
+    - Bosque
+    - Ciudad
+    - Cueva
+# Tipo mision
+    - Eliminacion
+    - Rescate
+    - Tesoro
+# Recompensa
+    - Espada
+    - Bolsa de Oro
+# Dificultad
+    - Facil
+    - Moderada
+# Clasificacion mision
+    - Principal
+    - Secundaria
+    

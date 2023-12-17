@@ -3,3 +3,9 @@
 #003 Principal, dificultad Difícil: Eliminacion en Ruinas
 #004 Eventoespecial, dificultad Difícil: Tesoro en Pantano
 #005 Secundaria, dificultad Legendario: Sabotaje en Ciudad
+#006 Secundaria, dificultad Moderada: Exploracion en Ruinas
+#007 Eventoespecial, dificultad Legendario: Exploracion en Desierto
+#008 Eventoespecial, dificultad Moderada: Escolta en Ruinas
+#009 Secundaria, dificultad Experto: Exploracion en Pantano
+#010 Principal, dificultad Experto: Tesoro en Cueva
+#011 Principal, dificultad Facil: Tesoro en Cueva

@@ -81,7 +81,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 100 "practica_final.y"
+#line 120 "practica_final.y"
 
 	char* string;
     int valInt;

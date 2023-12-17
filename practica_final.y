@@ -5,6 +5,7 @@
 #include <string.h>
 #include "list.c"
 #include <time.h>
+#include <unistd.h>
 
 int yylex(void);
 void yyerror (char const *);
@@ -14,7 +15,12 @@ char* ubicaciones;
 char* tiposmision;
 char* recompensas;
 char* dificultad;
-char* clasificaion;
+char* clasificacion;
+tList ListaUbicaciones;
+tList ListaTiposMision;
+tList ListaDificultad;
+tList ListaRecompensas;
+tList ListaClasificacion;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE LISTAS++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -48,10 +54,9 @@ tList split(const char *input) {
         token = strtok(NULL, "\n");
     }
 
-    //free(copy);  // No se puede hacer este free pq te cargas el resultado xd
-
     return result;
 }
+
 void eliminarEspaciosTabulacionesGuiones(char *cadena) {
     // Obtener la longitud de la cadena
     size_t longitud = strlen(cadena);
@@ -95,6 +100,21 @@ tItemL obtenerElementoAleatorio(tList L) {
     return getItem(indiceAleatorio, L);
 }
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++MANEJO DE CONTENIDO DE LISTAS+++++++++++++++++++++++++++++++++++++
+char* dificultades_validas[] = {"Facil", "Moderada", "Dificil", "Experto", "Legendario"};
+char* clasificaciones_validas[] = {"Principal", "Secundaria", "Gremio", "Eventoespecial"};
+
+// Función auxiliar para comprobar si un elemento está en la lista
+bool isInList(char* elemento, tList lista) {
+    tPosL p;
+    for (p = first(lista); p != LNULL; p = next(p, lista)) {
+        if (strcmp(getItem(p, lista), elemento) == 0) {
+            return true;
+        }
+    }
+return false;
+}
+
 %}
 
 %union{
@@ -109,37 +129,117 @@ tItemL obtenerElementoAleatorio(tList L) {
 
 %%
 S:      
-    NUMEROPERSONAJES NUMEROPERSONAJESINT UBICACION TIPOMISION RECOMPENSA DIFICULTAD CLASIFICACION {
-        printf("Numero de personajes: %d\n", $2);
-        printf("Ubicacion: %s\n", $3);
-        printf("Tipo mision: %s\n", $4);
+    numeropersonajes ubicacion tipomision recompensa dificultad clasificacion {
+        printf("La sintaxis del archivo de entrada es correcta. El resultado es:\n");
+    }
+    | error {
+        printf("Error, el archivo de entrada debe seguir el formato:\n# Numeropersonajes:\n# Ubicacion\n# Tipomision\n# Recompensa\n# Dificultad\n# Clasificacion\n");
+        exit(3);
+    }
+    ;
+
+numeropersonajes: 
+     NUMEROPERSONAJES NUMEROPERSONAJESINT {
         numeroPersonajes = $2;
-        ubicaciones = $3;
-        tiposmision = $4;
-        recompensas = $5;
-        dificultad = $6;
-        clasificaion = $7;
+        if(numeroPersonajes > 10){
+            printf("El número de personajes no puede ser mayor que 10\n");        
+            exit(1);
+        }
+    }
+    | NUMEROPERSONAJES {
+      printf("Error, es necesario introducir el número de personajes para generar las misiones\n");
+      exit(2);
+    };
+
+ubicacion:  
+    {
+      printf("Error, es necesario introducir las ubicaciones para generar las misiones\n");
+      exit(2);
+    }
+    | UBICACION {
+        ubicaciones = $1;
         eliminarEspaciosTabulacionesGuiones(ubicaciones);
-        tList ListaUbicaciones = split(ubicaciones);
-        printList(ListaUbicaciones);
+        ListaUbicaciones = split(ubicaciones);
+    };
+
+tipomision:
+    {
+      printf("Error, es necesario introducir el tipo de la misión para generar las misiones\n");
+      exit(2);
+    }
+    | TIPOMISION {
+        tiposmision = $1;
         eliminarEspaciosTabulacionesGuiones(tiposmision);
-        tList ListaTiposMision = split(tiposmision);
-        printList(ListaTiposMision);
+        ListaTiposMision = split(tiposmision);
+    };
+recompensa:
+    {
+        printf("Error, es necesario introducir la recompensa para generar las misiones\n");
+        exit(2);
+
+    }
+    | RECOMPENSA {
+        recompensas = $1;
         eliminarEspaciosTabulacionesGuiones(recompensas);
-        tList ListaRecompensas = split(recompensas);
-        printList(ListaRecompensas);
+        ListaRecompensas = split(recompensas);
+    };
+
+dificultad:
+    {        
+        printf("Error, es necesario introducir la dificultad para generar las misiones\n");
+        exit(2);
+    }
+    | DIFICULTAD {
+        tList dificultadvalida;
+        createEmptyList(&dificultadvalida);
+        
+        for (int i = 0; i < sizeof(dificultades_validas) / sizeof(dificultades_validas[0]); i++) {
+            insertItem(dificultades_validas[i], last(dificultadvalida), &dificultadvalida);
+        }
+
+        dificultad = $1;
         eliminarEspaciosTabulacionesGuiones(dificultad);
-        tList ListaDificultad = split(dificultad);
-        printList(ListaDificultad);
-        eliminarEspaciosTabulacionesGuiones(clasificaion);
-        tList ListaClasificacion = split(clasificaion);
-        printList(ListaClasificacion);
-        //printf("%s", obtenerElementoAleatorio(ListaUbicaciones));
+        ListaDificultad = split(dificultad);
+        for (tPosL p = first(ListaDificultad); p != LNULL; p = next(p, ListaDificultad)) {
+            if (!isInList(getItem(p, ListaDificultad), dificultadvalida)) {
+            printf("Error, la dificultad solo puede ser de estos cinco tipos: Facil, Moderada, Dificil, Experto, Legendario\n");
+            exit(1);
+            }
+        }
+    };
 
-        /*
-        PRINTF PARA CREAR MISIONES
-        */
+clasificacion:
+    {
+        printf("Error, es necesario introducir la clase de la misión para generar las misiones\n");
+        exit(2);
+    }
+    | CLASIFICACION {
+        tList clasificacionvalida;
+        createEmptyList(&clasificacionvalida);
+        
+        for (int i = 0; i < sizeof(clasificaciones_validas) / sizeof(clasificaciones_validas[0]); i++) {
+            insertItem(clasificaciones_validas[i], last(clasificacionvalida), &clasificacionvalida);
+        }
 
+        clasificacion = $1;
+        eliminarEspaciosTabulacionesGuiones(clasificacion);
+        ListaClasificacion = split(clasificacion);
+        for (tPosL p = first(ListaClasificacion); p != LNULL; p = next(p, ListaClasificacion)) {
+            if (!isInList(getItem(p, ListaClasificacion), clasificacionvalida)) {
+            printf("Error, la clase de la misión solo puede ser de estos cuatro tipos: Principal, Secundaria, Gremio, Evento especial\n");
+            exit(1);
+            }
+        }
+    };
+    
+%%
+
+int main(int argc, char *argv[]) {
+    srand(time(NULL));
+	extern FILE *yyin;
+	yyin = fopen(argv[1], "r");
+	yyparse();
+            
         // Obtener ubicación aleatoria
         char* ubicacionAleatoria = obtenerElementoAleatorio(ListaUbicaciones);
 
@@ -191,7 +291,7 @@ S:
 
         // Construir párrafo de misión
         printf("¡Atención aventureros!\n");
-        printf("Una nueva misión ha surgido en la %s. Se recomiendan ir en un grupo de al menos %d personas.\n", ubicacionAleatoria, numeroPersonajes);
+        printf("Una nueva misión ha surgido en el/la %s. Se recomiendan ir en un grupo de %d personas.\n", ubicacionAleatoria, numeroPersonajes);
 
         // Agregar detalles según el tipo de misión
         if (strcmp(tipoMisionAleatoria, "Eliminacion") == 0) {
@@ -201,27 +301,12 @@ S:
         } else if (strcmp(tipoMisionAleatoria, "Tesoro") == 0) {
             printf("Un valioso tesoro ha sido descubierto y está esperando a ser reclamado. \n");
         } else {
-            printf("Se requiere de ayuda para completar un %s\n", tipoMisionAleatoria);
+            printf("Se requiere de ayuda para completar un/una %s\n", tipoMisionAleatoria);
         }
 
         // Agregar información sobre la recompensa
         printf("A cambio de completar esta misión, se ofrece una recompensa: %s.\n", recompensaAleatoria);
         printf("¡Buena suerte en tu viaje!\n");
 
-        //TODO:Añadir gestion de errores
-
-        return 0;
-    }
-    | error {
-        printf("A");
-    }
-    ;
-%%
-
-int main(int argc, char *argv[]) {
-    srand(time(NULL));
-	extern FILE *yyin;
-	yyin = fopen(argv[1], "r");
-	yyparse();
 	return 0;
 }
