@@ -70,5 +70,5 @@ En cuanto al tratamiento de errores se ha comprobado para cada uno de los tokens
 
 ### 6.Aclaraciones o comentarios
 
-
+Es necesario separar los parámetros de las configuraciones de las misiones con saltos de línea.
 
