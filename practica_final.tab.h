@@ -60,7 +60,8 @@ extern int yydebug;
     RECOMPENSA = 261,              /* RECOMPENSA  */
     NUMEROPERSONAJES = 262,        /* NUMEROPERSONAJES  */
     DIFICULTAD = 263,              /* DIFICULTAD  */
-    CLASIFICACION = 264            /* CLASIFICACION  */
+    CLASIFICACION = 264,           /* CLASIFICACION  */
+    ACOMPANANTE = 265              /* ACOMPANANTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -76,17 +77,18 @@ extern int yydebug;
 #define NUMEROPERSONAJES 262
 #define DIFICULTAD 263
 #define CLASIFICACION 264
+#define ACOMPANANTE 265
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 120 "practica_final.y"
+#line 123 "practica_final.y"
 
 	char* string;
     int valInt;
 
-#line 90 "practica_final.tab.h"
+#line 92 "practica_final.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

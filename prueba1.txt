@@ -1,4 +1,4 @@
-# Numero de personajes: 10
+# Numero de personajes: 9
 # Ubicacion
     - Bosque
     - Ciudad
@@ -23,7 +23,6 @@
     - Conquista
 # Recompensa
     - Espada
-    - Bolsa de Oro
     - Pergamino mágico
     - Amuleto de protección
     - Mapa del tesoro
@@ -43,4 +42,6 @@
     - Secundaria
     - Gremio
     - Evento especial
-    
+# Acompañante
+    - Paladín
+    - Perro

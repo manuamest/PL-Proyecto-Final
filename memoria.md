@@ -70,5 +70,5 @@ En cuanto al tratamiento de errores se ha comprobado para cada uno de los tokens
 
 ### 6.Aclaraciones o comentarios
 
-Es necesario separar los parámetros de las configuraciones de las misiones con saltos de línea.
+Es necesario separar los parámetros de las configuraciones de las misiones con saltos de línea. Cuando no hay un acompañante es necesario crear la lista igualmente por tema de implementación de las listas.
 

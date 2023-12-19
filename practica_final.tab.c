@@ -86,11 +86,14 @@ char* tiposmision;
 char* recompensas;
 char* dificultad;
 char* clasificacion;
+char* acompanante;
+int recompensaOro;
 tList ListaUbicaciones;
 tList ListaTiposMision;
 tList ListaDificultad;
 tList ListaRecompensas;
 tList ListaClasificacion;
+tList ListaAcompanante;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++PARTE DE LISTAS++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -186,7 +189,7 @@ return false;
 }
 
 
-#line 190 "practica_final.tab.c"
+#line 193 "practica_final.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -224,14 +227,16 @@ enum yysymbol_kind_t
   YYSYMBOL_NUMEROPERSONAJES = 7,           /* NUMEROPERSONAJES  */
   YYSYMBOL_DIFICULTAD = 8,                 /* DIFICULTAD  */
   YYSYMBOL_CLASIFICACION = 9,              /* CLASIFICACION  */
-  YYSYMBOL_YYACCEPT = 10,                  /* $accept  */
-  YYSYMBOL_S = 11,                         /* S  */
-  YYSYMBOL_numeropersonajes = 12,          /* numeropersonajes  */
-  YYSYMBOL_ubicacion = 13,                 /* ubicacion  */
-  YYSYMBOL_tipomision = 14,                /* tipomision  */
-  YYSYMBOL_recompensa = 15,                /* recompensa  */
-  YYSYMBOL_dificultad = 16,                /* dificultad  */
-  YYSYMBOL_clasificacion = 17              /* clasificacion  */
+  YYSYMBOL_ACOMPANANTE = 10,               /* ACOMPANANTE  */
+  YYSYMBOL_YYACCEPT = 11,                  /* $accept  */
+  YYSYMBOL_S = 12,                         /* S  */
+  YYSYMBOL_numeropersonajes = 13,          /* numeropersonajes  */
+  YYSYMBOL_ubicacion = 14,                 /* ubicacion  */
+  YYSYMBOL_tipomision = 15,                /* tipomision  */
+  YYSYMBOL_recompensa = 16,                /* recompensa  */
+  YYSYMBOL_dificultad = 17,                /* dificultad  */
+  YYSYMBOL_clasificacion = 18,             /* clasificacion  */
+  YYSYMBOL_acompanante = 19                /* acompanante  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -559,19 +564,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   9
+#define YYLAST   14
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  10
+#define YYNTOKENS  11
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  8
+#define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  15
+#define YYNRULES  17
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  19
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   264
+#define YYMAXUTOK   265
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -611,15 +616,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9
+       5,     6,     7,     8,     9,    10
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   132,   132,   135,   142,   149,   155,   159,   166,   170,
-     176,   181,   188,   192,   212,   216
+       0,   135,   135,   138,   145,   152,   158,   162,   169,   173,
+     179,   184,   191,   195,   216,   220,   240,   243
 };
 #endif
 
@@ -637,8 +642,9 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUMEROPERSONAJESINT",
   "UBICACION", "TIPOMISION", "RECOMPENSA", "NUMEROPERSONAJES",
-  "DIFICULTAD", "CLASIFICACION", "$accept", "S", "numeropersonajes",
-  "ubicacion", "tipomision", "recompensa", "dificultad", "clasificacion", YY_NULLPTR
+  "DIFICULTAD", "CLASIFICACION", "ACOMPANANTE", "$accept", "S",
+  "numeropersonajes", "ubicacion", "tipomision", "recompensa",
+  "dificultad", "clasificacion", "acompanante", YY_NULLPTR
 };
 
 static const char *
@@ -663,7 +669,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 static const yytype_int8 yypact[] =
 {
       -1,    -5,    -2,     2,     0,    -5,    -5,    -5,     3,    -5,
-      -3,    -5,     1,    -5,    -4,    -5,    -5
+      -3,    -5,     1,    -5,    -4,    -5,     4,    -5,    -5
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -672,19 +678,19 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     3,     5,     0,     6,     4,     1,     7,     8,     9,
-      10,    11,    12,    13,    14,    15,     2
+      10,    11,    12,    13,    14,    15,    16,    17,     2
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5,    -5,    -5,    -5,    -5,    -5,    -5
+      -5,    -5,    -5,    -5,    -5,    -5,    -5,    -5,    -5
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     3,     4,     8,    10,    12,    14,    16
+       0,     3,     4,     8,    10,    12,    14,    16,    18
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -692,34 +698,36 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5,     6,    11,     7,    15,     2,     0,     9,    13
+       1,     5,     6,    11,     7,    15,     2,     0,     9,    13,
+       0,     0,     0,     0,    17
 };
 
 static const yytype_int8 yycheck[] =
 {
-       1,     3,     0,     6,     4,     9,     7,    -1,     5,     8
+       1,     3,     0,     6,     4,     9,     7,    -1,     5,     8,
+      -1,    -1,    -1,    -1,    10
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     1,     7,    11,    12,     3,     0,     4,    13,     5,
-      14,     6,    15,     8,    16,     9,    17
+       0,     1,     7,    12,    13,     3,     0,     4,    14,     5,
+      15,     6,    16,     8,    17,     9,    18,    10,    19
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    10,    11,    11,    12,    12,    13,    13,    14,    14,
-      15,    15,    16,    16,    17,    17
+       0,    11,    12,    12,    13,    13,    14,    14,    15,    15,
+      16,    16,    17,    17,    18,    18,    19,    19
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     6,     1,     2,     1,     0,     1,     0,     1,
-       0,     1,     0,     1,     0,     1
+       0,     2,     7,     1,     2,     1,     0,     1,     0,     1,
+       0,     1,     0,     1,     0,     1,     0,     1
 };
 
 
@@ -1182,25 +1190,25 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* S: numeropersonajes ubicacion tipomision recompensa dificultad clasificacion  */
-#line 132 "practica_final.y"
-                                                                              {
+  case 2: /* S: numeropersonajes ubicacion tipomision recompensa dificultad clasificacion acompanante  */
+#line 135 "practica_final.y"
+                                                                                          {
         printf("La sintaxis del archivo de entrada es correcta. El resultado es:\n");
     }
-#line 1191 "practica_final.tab.c"
+#line 1199 "practica_final.tab.c"
     break;
 
   case 3: /* S: error  */
-#line 135 "practica_final.y"
+#line 138 "practica_final.y"
             {
         printf("Error, el archivo de entrada debe seguir el formato:\n# Numeropersonajes:\n# Ubicacion\n# Tipomision\n# Recompensa\n# Dificultad\n# Clasificacion\n");
         exit(3);
     }
-#line 1200 "practica_final.tab.c"
+#line 1208 "practica_final.tab.c"
     break;
 
   case 4: /* numeropersonajes: NUMEROPERSONAJES NUMEROPERSONAJESINT  */
-#line 142 "practica_final.y"
+#line 145 "practica_final.y"
                                           {
         numeroPersonajes = (yyvsp[0].valInt);
         if(numeroPersonajes > 10){
@@ -1208,87 +1216,87 @@ yyreduce:
             exit(1);
         }
     }
-#line 1212 "practica_final.tab.c"
+#line 1220 "practica_final.tab.c"
     break;
 
   case 5: /* numeropersonajes: NUMEROPERSONAJES  */
-#line 149 "practica_final.y"
+#line 152 "practica_final.y"
                        {
       printf("Error, es necesario introducir el número de personajes para generar las misiones\n");
       exit(2);
     }
-#line 1221 "practica_final.tab.c"
+#line 1229 "practica_final.tab.c"
     break;
 
   case 6: /* ubicacion: %empty  */
-#line 155 "practica_final.y"
+#line 158 "practica_final.y"
     {
       printf("Error, es necesario introducir las ubicaciones para generar las misiones\n");
       exit(2);
     }
-#line 1230 "practica_final.tab.c"
+#line 1238 "practica_final.tab.c"
     break;
 
   case 7: /* ubicacion: UBICACION  */
-#line 159 "practica_final.y"
+#line 162 "practica_final.y"
                 {
         ubicaciones = (yyvsp[0].string);
         eliminarEspaciosTabulacionesGuiones(ubicaciones);
         ListaUbicaciones = split(ubicaciones);
     }
-#line 1240 "practica_final.tab.c"
+#line 1248 "practica_final.tab.c"
     break;
 
   case 8: /* tipomision: %empty  */
-#line 166 "practica_final.y"
+#line 169 "practica_final.y"
     {
       printf("Error, es necesario introducir el tipo de la misión para generar las misiones\n");
       exit(2);
     }
-#line 1249 "practica_final.tab.c"
+#line 1257 "practica_final.tab.c"
     break;
 
   case 9: /* tipomision: TIPOMISION  */
-#line 170 "practica_final.y"
+#line 173 "practica_final.y"
                  {
         tiposmision = (yyvsp[0].string);
         eliminarEspaciosTabulacionesGuiones(tiposmision);
         ListaTiposMision = split(tiposmision);
     }
-#line 1259 "practica_final.tab.c"
+#line 1267 "practica_final.tab.c"
     break;
 
   case 10: /* recompensa: %empty  */
-#line 176 "practica_final.y"
+#line 179 "practica_final.y"
     {
         printf("Error, es necesario introducir la recompensa para generar las misiones\n");
         exit(2);
 
     }
-#line 1269 "practica_final.tab.c"
+#line 1277 "practica_final.tab.c"
     break;
 
   case 11: /* recompensa: RECOMPENSA  */
-#line 181 "practica_final.y"
+#line 184 "practica_final.y"
                  {
         recompensas = (yyvsp[0].string);
         eliminarEspaciosTabulacionesGuiones(recompensas);
         ListaRecompensas = split(recompensas);
     }
-#line 1279 "practica_final.tab.c"
+#line 1287 "practica_final.tab.c"
     break;
 
   case 12: /* dificultad: %empty  */
-#line 188 "practica_final.y"
+#line 191 "practica_final.y"
     {        
         printf("Error, es necesario introducir la dificultad para generar las misiones\n");
         exit(2);
     }
-#line 1288 "practica_final.tab.c"
+#line 1296 "practica_final.tab.c"
     break;
 
   case 13: /* dificultad: DIFICULTAD  */
-#line 192 "practica_final.y"
+#line 195 "practica_final.y"
                  {
         tList dificultadvalida;
         createEmptyList(&dificultadvalida);
@@ -1306,21 +1314,22 @@ yyreduce:
             exit(1);
             }
         }
-    }
-#line 1311 "practica_final.tab.c"
-    break;
 
-  case 14: /* clasificacion: %empty  */
-#line 212 "practica_final.y"
-    {
-        printf("Error, es necesario introducir la clase de la misión para generar las misiones\n");
-        exit(2);
     }
 #line 1320 "practica_final.tab.c"
     break;
 
-  case 15: /* clasificacion: CLASIFICACION  */
+  case 14: /* clasificacion: %empty  */
 #line 216 "practica_final.y"
+    {
+        printf("Error, es necesario introducir la clase de la misión para generar las misiones\n");
+        exit(2);
+    }
+#line 1329 "practica_final.tab.c"
+    break;
+
+  case 15: /* clasificacion: CLASIFICACION  */
+#line 220 "practica_final.y"
                     {
         tList clasificacionvalida;
         createEmptyList(&clasificacionvalida);
@@ -1339,11 +1348,29 @@ yyreduce:
             }
         }
     }
-#line 1343 "practica_final.tab.c"
+#line 1352 "practica_final.tab.c"
+    break;
+
+  case 16: /* acompanante: %empty  */
+#line 240 "practica_final.y"
+    {
+        createEmptyList(&ListaAcompanante);
+    }
+#line 1360 "practica_final.tab.c"
+    break;
+
+  case 17: /* acompanante: ACOMPANANTE  */
+#line 243 "practica_final.y"
+                  {
+        acompanante = (yyvsp[0].string);
+        eliminarEspaciosTabulacionesGuiones(acompanante);
+        ListaAcompanante = split(acompanante);
+    }
+#line 1370 "practica_final.tab.c"
     break;
 
 
-#line 1347 "practica_final.tab.c"
+#line 1374 "practica_final.tab.c"
 
       default: break;
     }
@@ -1536,7 +1563,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 235 "practica_final.y"
+#line 250 "practica_final.y"
 
 
 int main(int argc, char *argv[]) {
@@ -1545,73 +1572,144 @@ int main(int argc, char *argv[]) {
 	yyin = fopen(argv[1], "r");
 	yyparse();
             
-        // Obtener ubicación aleatoria
-        char* ubicacionAleatoria = obtenerElementoAleatorio(ListaUbicaciones);
+    // Obtener ubicación aleatoria
+    char* ubicacionAleatoria = obtenerElementoAleatorio(ListaUbicaciones);
 
-        // Obtener tipo de misión aleatoria
-        char* tipoMisionAleatoria = obtenerElementoAleatorio(ListaTiposMision);
+    // Obtener tipo de misión aleatoria
+    char* tipoMisionAleatoria = obtenerElementoAleatorio(ListaTiposMision);
 
-        // Obtener recompensa aleatoria
-        char* recompensaAleatoria = obtenerElementoAleatorio(ListaRecompensas);
+    // Obtener recompensa aleatoria
+    char* recompensaAleatoria = obtenerElementoAleatorio(ListaRecompensas);
 
-        // Obtener dificultad aleatoria
-        char* dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+    // Obtener dificultad aleatoria
+    char* dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
     
-        // Obtener clasificación aleatoria
-        char* clasificacionAleatoria = obtenerElementoAleatorio(ListaClasificacion);
-        
-        // Leer archivo
-        FILE *archivo_lectura = fopen("misiones.txt", "r");
-        if (archivo_lectura != NULL) {
+    // Obtener clasificación aleatoria
+    char* clasificacionAleatoria = obtenerElementoAleatorio(ListaClasificacion);
+
+    // Obtener acompanante aleatorio
+    char* acompananteAleatorio = obtenerElementoAleatorio(ListaAcompanante);
+    
+    // Leer archivo
+    FILE *archivo_lectura = fopen("misiones.txt", "r");
+    if (archivo_lectura != NULL) {
             
-            fseek(archivo_lectura, -2, SEEK_END);  // Ir al final del archivo
+        fseek(archivo_lectura, -2, SEEK_END);  // Ir al final del archivo
 
             // Retroceder hasta encontrar el primer salto de línea
-            while (fgetc(archivo_lectura) != '\n') {
-                if (ftell(archivo_lectura) == 1) {
-                    // Si no hay salto de línea y estamos al principio del archivo,
-                    // intentamos buscar al principio después de esperar 0.1 segundos
-                    fclose(archivo_lectura);
-                    usleep(100000);  // 0.1 segundos en microsegundos
-                    archivo_lectura = fopen("misiones.txt", "r");
-                    break;
-                }
-                fseek(archivo_lectura, -2, SEEK_CUR);
+        while (fgetc(archivo_lectura) != '\n') {
+            if (ftell(archivo_lectura) == 1) {
+                // Si no hay salto de línea y estamos al principio del archivo,
+                // intentamos buscar al principio después de esperar 0.1 segundos
+                fclose(archivo_lectura);
+                usleep(100000);  // 0.1 segundos en microsegundos
+                archivo_lectura = fopen("misiones.txt", "r");
+                break;
             }
-
-            // Leer el último número de misión
-            fscanf(archivo_lectura, "#%03d", &numeroMision);
-            fclose(archivo_lectura);
+            fseek(archivo_lectura, -2, SEEK_CUR);
         }
+        // Leer el último número de misión
+        fscanf(archivo_lectura, "#%03d", &numeroMision);
+        fclose(archivo_lectura);
+    }
 
-        numeroMision++;
-
-        // Guardar información en un archivo
-        FILE *archivo = fopen("misiones.txt", "a");
-        fprintf(archivo, "#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
-        fclose(archivo);
-
-        // Imprimir cabecera de la misión
-        printf("#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
-
-        // Construir párrafo de misión
-        printf("¡Atención aventureros!\n");
-        printf("Una nueva misión ha surgido en el/la %s. Se recomiendan ir en un grupo de %d personas.\n", ubicacionAleatoria, numeroPersonajes);
-
-        // Agregar detalles según el tipo de misión
-        if (strcmp(tipoMisionAleatoria, "Eliminacion") == 0) {
-            printf("Se requiere la eliminación de una amenaza enemiga. \n");
-        } else if (strcmp(tipoMisionAleatoria, "Rescate") == 0) {
-            printf("Un grupo de personas necesita ser rescatado de una situación peligrosa. \n");
-        } else if (strcmp(tipoMisionAleatoria, "Tesoro") == 0) {
-            printf("Un valioso tesoro ha sido descubierto y está esperando a ser reclamado. \n");
-        } else {
-            printf("Se requiere de ayuda para completar un/una %s\n", tipoMisionAleatoria);
+  
+    if(numeroPersonajes<=3){
+        char* dificultad3[] = {"Facil", "Moderada"};
+        tList dificultad_3;
+        createEmptyList(&dificultad_3);
+        for (int i = 0; i < sizeof(dificultad3) / sizeof(dificultad3[0]); i++) {
+            insertItem(dificultad3[i], last(dificultad_3), &dificultad_3);
         }
+        while(!isInList(dificultadAleatoria, dificultad_3)){
+            dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+        }
+    }
+    
+    if(numeroPersonajes<=5){
+        char* dificultad5[] = {"Facil", "Moderada", "Dificil"};
+        tList dificultad_5;
+        createEmptyList(&dificultad_5);
+        for (int i = 0; i < sizeof(dificultad5) / sizeof(dificultad5[0]); i++) {
+            insertItem(dificultad5[i], last(dificultad_5), &dificultad_5);
+        }
+        while(!isInList(dificultadAleatoria, dificultad_5)){
+            dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+        }
+    }
+     
+    if(numeroPersonajes<=8){
+        char* dificultad8[] = {"Facil", "Moderada", "Dificil", "Experto"};
+        tList dificultad_8;
+        createEmptyList(&dificultad_8);
+        for (int i = 0; i < sizeof(dificultad8) / sizeof(dificultad8[0]); i++) {
+            insertItem(dificultad8[i], last(dificultad_8), &dificultad_8);
+        }
+        while(!isInList(dificultadAleatoria, dificultad_8)){
+            dificultadAleatoria = obtenerElementoAleatorio(ListaDificultad);
+        }
+    }
+    
 
-        // Agregar información sobre la recompensa
-        printf("A cambio de completar esta misión, se ofrece una recompensa: %s.\n", recompensaAleatoria);
-        printf("¡Buena suerte en tu viaje!\n");
+    // En el bloque principal del programa, después de obtener la dificultad y clasificación aleatorias:
+    switch (dificultadAleatoria[0]) {
+        case 'F':
+            recompensaOro = rand() % 5 * 100 + 100;  // Recompensa de 100 a 500 en saltos de 100
+            break;
+        case 'M':
+            recompensaOro = rand() % 11 * 100 + 500;  // Recompensa de 500 a 1500 en saltos de 100
+            break;
+        case 'D':
+            recompensaOro = rand() % 7 * 500 + 2000;  // Recompensa de 2000 a 5000 en saltos de 500
+            break;
+        case 'E':
+            recompensaOro = rand() % 11 * 1000 + 10000;  // Recompensa de 10000 a 20000 en saltos de 1000
+            break;
+        case 'L':
+            recompensaOro = rand() % 11 * 2000 + 20000;  // Recompensa de 10000 a 20000 en saltos de 1000
+            break;
+        default:
+            printf("Error, dificultad no reconocida\n");
+            exit(1);
+    }
+
+    // Puedes ajustar la recompensaOro según la clasificación de la misión, por ejemplo:
+    if (strcmp(clasificacionAleatoria, "Principal") == 0) {
+        recompensaOro *= 1.5;  // Aumentar recompensa para misiones principales
+    } else if (strcmp(clasificacionAleatoria, "Gremio") == 0) {
+        recompensaOro *= 1.2;  // Aumentar recompensa para misiones de gremio
+    }
+
+    numeroMision++;
+
+    // Guardar información en un archivo
+    FILE *archivo = fopen("misiones.txt", "a");
+    fprintf(archivo, "#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+    fclose(archivo);
+
+    // Imprimir cabecera de la misión
+    printf("#%03d %s, dificultad %s: %s en %s\n", numeroMision, clasificacionAleatoria, dificultadAleatoria, tipoMisionAleatoria, ubicacionAleatoria);
+
+    // Construir párrafo de misión
+    printf("¡Atención aventureros!\n");
+    printf("Una nueva misión ha surgido en el/la %s. Se recomiendan ir en un grupo de %d personas.\n", ubicacionAleatoria, numeroPersonajes);
+
+    // Agregar detalles según el tipo de misión
+    if (strcmp(tipoMisionAleatoria, "Eliminacion") == 0) {
+        printf("Se requiere la eliminación de una amenaza enemiga. \n");
+    } else if (strcmp(tipoMisionAleatoria, "Rescate") == 0) {
+        printf("Un grupo de personas necesita ser rescatado de una situación peligrosa. \n");
+    } else if (strcmp(tipoMisionAleatoria, "Tesoro") == 0) {
+         printf("Un valioso tesoro ha sido descubierto y está esperando a ser reclamado. \n");
+    } else {
+        printf("Se requiere de ayuda para completar un/una %s\n", tipoMisionAleatoria);
+    }
+    if(!isEmptyList(ListaAcompanante)){
+        printf("Puedes contar con el apoyo de %s\n", acompananteAleatorio);
+    }
+    // Agregar información sobre la recompensa
+    printf("A cambio de completar esta misión, se ofrece la siguiente recompensa: %s, %d de oro\n", recompensaAleatoria, recompensaOro);
+    printf("¡Buena suerte en tu viaje!\n");
 
 	return 0;
 }

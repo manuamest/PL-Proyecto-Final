@@ -17,5 +17,6 @@ string                 [A-Za-zñÑáéíóúÁÉÍÓÚ\- \t\n]+
 "# Recompensa\n"{string}            { yylval.string = strdup(yytext + 12); return RECOMPENSA; }
 "# Dificultad\n"{string}            { yylval.string = strdup(yytext + 12); return DIFICULTAD; }
 "# Clasificacion mision\n"{string}  { yylval.string = strdup(yytext + 23); return CLASIFICACION; }
+"# Acompañante\n"{string}           { yylval.string = strdup(yytext + 14); return ACOMPANANTE; }
 
 %%
